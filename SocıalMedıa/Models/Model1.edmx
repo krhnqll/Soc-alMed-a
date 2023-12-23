@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SocıalMedıaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Admin_id" />
+          </Key>
+          <Property Name="Admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Admin_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Admin_surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Billboard">
+          <Key>
+            <PropertyRef Name="Billboard_id" />
+          </Key>
+          <Property Name="Billboard_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Billboard_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Billboard_detail" Type="nvarchar" MaxLength="50" />
+          <Property Name="Billboard_status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Billboard_height" Type="int" />
+          <Property Name="Billboard_width" Type="int" />
+          <Property Name="Loc_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Cus_id" />
+          </Key>
+          <Property Name="Cus_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cus_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cus_surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cus_email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cus_phonenumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Loc_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Loc_id" />
+          </Key>
+          <Property Name="Loc_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Loc_priceRate" Type="int" />
+          <Property Name="Loc_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Res_id" />
+          </Key>
+          <Property Name="Res_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Res_time" Type="int" />
+          <Property Name="Res_company" Type="nvarchar" MaxLength="50" />
+          <Property Name="Res_detail" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cus_id" Type="int" />
+          <Property Name="Total_price" Type="int" />
+          <Property Name="Billboard_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Billboard_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Billboard" Type="Self.Billboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Loc_id" />
+            </Principal>
+            <Dependent Role="Billboard">
+              <PropertyRef Name="Loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Loc_id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="Loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Billboard">
+          <End Role="Billboard" Type="Self.Billboard" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billboard">
+              <PropertyRef Name="Billboard_id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Billboard_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Cus_id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Cus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocıalMedıaModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Billboard" EntityType="Self.Billboard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Billboard_Location" Association="Self.FK_Billboard_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Billboard" EntitySet="Billboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Location" Association="Self.FK_Customer_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Billboard" Association="Self.FK_Reservation_Billboard">
+            <End Role="Billboard" EntitySet="Billboard" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Customer" Association="Self.FK_Reservation_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SocıalMedıaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Admin_id" />
+          </Key>
+          <Property Name="Admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Admin_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Billboard">
+          <Key>
+            <PropertyRef Name="Billboard_id" />
+          </Key>
+          <Property Name="Billboard_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Billboard_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Billboard_detail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Billboard_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Billboard_height" Type="Int32" />
+          <Property Name="Billboard_width" Type="Int32" />
+          <Property Name="Loc_id" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Billboard_Location" FromRole="Billboard" ToRole="Location" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_Billboard" FromRole="Billboard" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Cus_id" />
+          </Key>
+          <Property Name="Cus_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cus_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cus_surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cus_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cus_phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Loc_id" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Customer_Location" FromRole="Customer" ToRole="Location" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_Customer" FromRole="Customer" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Loc_id" />
+          </Key>
+          <Property Name="Loc_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Loc_priceRate" Type="Int32" />
+          <Property Name="Loc_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Billboard" Relationship="Self.FK_Billboard_Location" FromRole="Location" ToRole="Billboard" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Location" FromRole="Location" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Res_id" />
+          </Key>
+          <Property Name="Res_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Res_time" Type="Int32" />
+          <Property Name="Res_company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Res_detail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cus_id" Type="Int32" />
+          <Property Name="Total_price" Type="Int32" />
+          <Property Name="Billboard_id" Type="Int32" />
+          <NavigationProperty Name="Billboard" Relationship="Self.FK_Reservation_Billboard" FromRole="Reservation" ToRole="Billboard" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Reservation_Customer" FromRole="Reservation" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Billboard_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Billboard" Type="Self.Billboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Loc_id" />
+            </Principal>
+            <Dependent Role="Billboard">
+              <PropertyRef Name="Loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Billboard">
+          <End Role="Billboard" Type="Self.Billboard" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billboard">
+              <PropertyRef Name="Billboard_id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Billboard_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Loc_id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="Loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Cus_id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Cus_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocıalMedıaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admin" EntityType="Self.Admin" />
+          <EntitySet Name="Billboard" EntityType="Self.Billboard" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="Location" EntityType="Self.Location" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_Billboard_Location" Association="Self.FK_Billboard_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Billboard" EntitySet="Billboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Billboard" Association="Self.FK_Reservation_Billboard">
+            <End Role="Billboard" EntitySet="Billboard" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Location" Association="Self.FK_Customer_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Customer" Association="Self.FK_Reservation_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SocıalMedıaModelStoreContainer" CdmEntityContainer="SocıalMedıaEntities">
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Admin_id" ColumnName="Admin_id" />
+                <ScalarProperty Name="Admin_name" ColumnName="Admin_name" />
+                <ScalarProperty Name="Admin_surname" ColumnName="Admin_surname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Billboard">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.Billboard">
+              <MappingFragment StoreEntitySet="Billboard">
+                <ScalarProperty Name="Billboard_id" ColumnName="Billboard_id" />
+                <ScalarProperty Name="Billboard_name" ColumnName="Billboard_name" />
+                <ScalarProperty Name="Billboard_detail" ColumnName="Billboard_detail" />
+                <ScalarProperty Name="Billboard_status" ColumnName="Billboard_status" />
+                <ScalarProperty Name="Billboard_height" ColumnName="Billboard_height" />
+                <ScalarProperty Name="Billboard_width" ColumnName="Billboard_width" />
+                <ScalarProperty Name="Loc_id" ColumnName="Loc_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Cus_id" ColumnName="Cus_id" />
+                <ScalarProperty Name="Cus_name" ColumnName="Cus_name" />
+                <ScalarProperty Name="Cus_surname" ColumnName="Cus_surname" />
+                <ScalarProperty Name="Cus_email" ColumnName="Cus_email" />
+                <ScalarProperty Name="Cus_phonenumber" ColumnName="Cus_phonenumber" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="Loc_id" ColumnName="Loc_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Location">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Loc_id" ColumnName="Loc_id" />
+                <ScalarProperty Name="Loc_priceRate" ColumnName="Loc_priceRate" />
+                <ScalarProperty Name="Loc_name" ColumnName="Loc_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservation">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="Res_id" ColumnName="Res_id" />
+                <ScalarProperty Name="Res_time" ColumnName="Res_time" />
+                <ScalarProperty Name="Res_company" ColumnName="Res_company" />
+                <ScalarProperty Name="Res_detail" ColumnName="Res_detail" />
+                <ScalarProperty Name="Cus_id" ColumnName="Cus_id" />
+                <ScalarProperty Name="Total_price" ColumnName="Total_price" />
+                <ScalarProperty Name="Billboard_id" ColumnName="Billboard_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SocıalMedıaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
