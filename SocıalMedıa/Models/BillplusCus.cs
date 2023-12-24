@@ -16,8 +16,9 @@ namespace SocıalMedıa.Models
 
        
           
-        public List<Billboard> Billboard_List { get; internal set; }
-        public List<Customer> Customer_List { get; internal set; }
+        public List<CustomerDto> Customer_List { get; internal set; }
+        public List<BillboardDto> Billboard_List { get; internal set; }
+
 
         public Location location { get; internal set; }
 

@@ -23,17 +23,37 @@ namespace SocıalMedıa.Controllers
         [HttpGet]
         public ActionResult AdminPage()
         {
-     
-            var CustomerList = Db.Customer.ToList();
-            var BillboardList = Db.Billboard.ToList();
-
+            var CustomerList = from c in Db.Customer
+                               join l in Db.Location
+                               on c.Loc_id equals l.Loc_id
+                               select new CustomerDto
+                               {
+                                   Cus_id = c.Cus_id,
+                                   Cus_email = c.Cus_email,
+                                   Cus_name = c.Cus_name,
+                                   Cus_phonenumber = c.Cus_phonenumber,
+                                   Cus_surname = c.Cus_surname,
+                                   password = c.password,
+                                   username = c.username,
+                                   Loc_name = l.Loc_name
+                               };
+            var BillboardList = from b in Db.Billboard
+                                join l in Db.Location
+                                on b.Loc_id equals l.Loc_id
+                                select new BillboardDto
+                                {
+                                    Billboard_id = b.Billboard_id,
+                                    Billboard_detail = b.Billboard_detail,
+                                    Billboard_height = b.Billboard_height,
+                                    Billboard_name = b.Billboard_name,
+                                    Billboard_status = b.Billboard_status,
+                                    Billboard_width = b.Billboard_width,
+                                    Loc_name = l.Loc_name
+                                };
             BillplusCus Model = new BillplusCus
             {
-               
                 Customer_List = CustomerList.ToList(),
                 Billboard_List = BillboardList.ToList(),
-                
-               
             };
                
             return View(Model);
