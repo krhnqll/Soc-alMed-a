@@ -1,0 +1,110 @@
+using Microsoft.AspNet.Identity;
+using SocıalMedıa.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SocıalMedıa.Controllers
+{
+    public class ShoppıngController : Controller
+    {
+        SocıalMedıaEntities1 Db = new SocıalMedıaEntities1();
+        
+        [HttpGet]
+        public ActionResult CartPages(int id)
+        {
+
+            /*
+                Billboard Bilgisi 
+                Customer name Surname
+                Res detail  
+                Company detail  
+                */
+
+            
+             
+            var billloc = Db.Billboard.Where(i => i.Billboard_id == id)
+                   .Select(i => new BillplusLocation()
+                   {
+                       Billboard_id = i.Billboard_id,
+                       Billboard_name = i.Billboard_name,
+                       Billboard_height = i.Billboard_height,
+                       Billboard_width = i.Billboard_width,
+                       Billboard_detail = i.Billboard_detail,
+                       Billboard_status = i.Billboard_status,
+                       Loc_name = i.Location.Loc_name
+                        
+                   }).FirstOrDefault();
+
+            int cusID = (int)Session["Customer"];
+           
+
+            var cust = Db.Customer.Where(i => i.Cus_id == cusID)
+                   .Select(i => new CusplusLocation()
+                   {
+                       Cus_name = i.Cus_name,
+                       Cus_surname = i.Cus_surname,
+                   }).FirstOrDefault();
+
+           
+
+            var cartItem = new ReservationplussAll
+            {
+                List_forthecus = new List<CusplusLocation> { cust },
+                List_forthebill = new List<BillplusLocation> { billloc },
+                
+            };
+
+
+            string cartSessionKey = "UserCart_" + cusID;
+
+            if (Session[cartSessionKey] == null)
+            {
+                Session[cartSessionKey] = new List<ReservationplussAll>();
+            }
+            var userCart = (List<ReservationplussAll>)Session[cartSessionKey];
+            userCart.Add(cartItem);
+
+            return View(cartItem);         
+        }
+        
+
+        /*
+        private List<ReservationplussAll> GetCart()
+        {
+            List<ReservationplussAll> cart = Session["cart"] as List<ReservationplussAll>;
+
+            if (cart == null) 
+            {
+                cart = new List<ReservationplussAll>();
+                Session["cart"] = cart;
+            }
+            return cart;
+        }
+        public ActionResult AddToCart(int id,String comp, String det,int tım)
+        {
+            List<ReservationplussAll> cart = GetCart();
+
+            ReservationplussAll newBill = new ReservationplussAll 
+            {
+                Res_id = id,
+                Res_company = comp,
+                Res_detail = det,
+                Res_time = tım
+            };
+            cart.Add(newBill);
+            
+            Session["cart"] = cart;
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ViewCart()
+        {
+            List<ReservationplussAll> cart = GetCart();
+            return View(cart);
+        }*/
+    }
+}
