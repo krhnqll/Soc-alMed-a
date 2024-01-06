@@ -1,4 +1,4 @@
-﻿@model SocıalMedıa.Models.Customer
+@model SocıalMedıa.Models.Customer
 
 @{
     ViewBag.Title = "Customer Login";
@@ -21,6 +21,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Billboards <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                    @Html.ActionLink("Logout", "LogOut", "login")
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About Us</a>
                 </li>
@@ -42,18 +45,19 @@
                     @using (Html.BeginForm("Customer", "Login", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        <div class="form-group col-md-center">
-                            @Html.LabelFor(model => model.username)
-                            @Html.TextBoxFor(model => model.username, "", new { @class = "form-control", @placeholder = "Customer Username" })
+                    <div class="form-group col-md-center">
+                        @Html.LabelFor(model => model.username)
+                        <input type="text" name="Username" class="form-group" />
 
-                        </div>
+                    </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.password)
-                            @Html.PasswordFor(model => model.password, new { @class = "form-control", @placeholder = "Customer Password" })
+                            <input type="password" name="Password" class="form-group" />                           
                         </div>
                         @Html.ValidationSummary(true)
                         <div class="form-group">
                             <input type="submit" name="submit" class="btn btn-primary" value="Login" />
+                            
                         </div>
                     }
                 </div>
@@ -64,9 +68,11 @@
 }
 else
 {
-    <div>
-        @Html.ActionLink(Model.Cus_name, "Index") // kullanıcı zaten giriş yapmış ise, anasayfaya yönlendir...TAMAMLA!!
+<div>
+    @{
+        Response.Redirect("~/Home/Profile");
+    }
 
-    </div>
+</div>
 }
 
