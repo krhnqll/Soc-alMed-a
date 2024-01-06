@@ -1,4 +1,4 @@
-﻿@model SocıalMedıa.Models.Admin
+@model SocıalMedıa.Models.Admin
 
 @{
     ViewBag.Title = "Admin Login";
@@ -20,6 +20,9 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Billboards <span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+                    @Html.ActionLink("Logout", "LogOut", "login")
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About Us</a>
@@ -65,7 +68,10 @@
 else
 {
     <div>
-        @Html.ActionLink("Admin Page", "AdminPage"); //admin zaten giriş yapmış ise, direkt adm
+        @{
+            Response.Redirect("~/Function/AdminPage");
+         }
+            
     </div>
 }
 
