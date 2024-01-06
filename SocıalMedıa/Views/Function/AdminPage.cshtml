@@ -1,4 +1,5 @@
-﻿@model SocıalMedıa.Models.BillplusCus
+@using SocıalMedıa.Models
+@model SocıalMedıa.Models.BillplusCus
 @{
     ViewBag.Title = "AdminPage";
 }
@@ -70,7 +71,7 @@
                     @Html.DisplayFor(modelItem => item.Cus_phonenumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Loc_id)
+                    @Html.DisplayFor(modelItem => item.Loc_name)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "EditCustomer", new { id = item.Cus_id }) |
@@ -128,7 +129,7 @@
                     @Html.DisplayFor(modelItem => item.Billboard_status)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Loc_id)
+                    @Html.DisplayFor(modelItem => item.Loc_name)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "EditBillboard", new { id = item.Billboard_id }) |
