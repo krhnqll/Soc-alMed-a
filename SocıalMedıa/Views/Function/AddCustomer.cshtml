@@ -1,4 +1,4 @@
-﻿@model SocıalMedıa.Models.Customer
+@model SocıalMedıa.Models.Customer
 
 @{
     ViewBag.Title = "Add Customer";
@@ -12,7 +12,7 @@
 
 <h2>Add New Customer</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddCustomer", "Function", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -39,7 +39,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Cus_email, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Cus_email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Cus_email, new { htmlAttributes = new { @class = "form-control" , type="Email" } })
             @Html.ValidationMessageFor(model => model.Cus_email, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -67,24 +67,19 @@
             @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Loc_id, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Loc_id, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Loc_id, "", new { @class = "text-danger" })
-        </div>
+
+    <div class="container">
+        @Html.DropDownList("Loc_name",ViewBag.CityList as SelectList,"Şehir Seçiniz")
     </div>
+   
 
     @if (ViewBag.sonuc != null)
     {<div class="alert alert-success">@ViewBag.sonuc</div>}
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" name="submit" class="btn btn-primary" value="Add New Customer" />
         </div>
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "AdminPage")
-</div>
