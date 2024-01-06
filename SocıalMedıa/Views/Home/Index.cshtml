@@ -1,4 +1,4 @@
-﻿
+@model SocıalMedıa.Models.Customer
 @{
     ViewBag.Title = "Index";
 }
@@ -18,19 +18,43 @@
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Billboards <span class="sr-only">(current)</span></a>
-                </li>
+                @Html.ActionLink("Billboards", "BillboardsPage", "Home")
+                &nbsp;
+                @if (Session["Admin"] != null)
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("Admin Page", "AdminPage", "Function")
+                    </li>
+                }
+                &nbsp;
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    @Html.ActionLink("AboutUs", "AboutUs", "Home")
                 </li>
-                <li class="nav-item">
-                    @Html.ActionLink("About Us","AboutUs","Home")
-                </li>   
+                &nbsp;
+
+                @if (Session["Admin"] == null)
+                {
+                    <form class="form-inline my-2 my-lg-0">
+                        @Html.ActionLink("Profile", "Profile", "Home")
+                    </form>
+                }
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                @Html.ActionLink("LOGİN", "login", "Login")
-            </form>
+            @if (Session["Customer"] == null && Session["Admin"] == null)
+            {
+                <form class="form-inline my-2 my-lg-0">
+                    @Html.ActionLink("LOGİN", "login", "Login")
+                </form>
+
+            }
+            else
+            {
+                <form>
+                    @Html.ActionLink("Logout", "LogOut", "login")
+                </form>               
+            }
+
+
         </div>
     </nav>
 </div>
