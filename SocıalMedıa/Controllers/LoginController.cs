@@ -1,16 +1,18 @@
-﻿using SocıalMedıa.Models;
+using SocıalMedıa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SocıalMedıa.Controllers
 {
     public class LoginController : Controller
     {
-        SocıalMedıaEntities Db = new SocıalMedıaEntities();
+        SocıalMedıaEntities1 Db = new SocıalMedıaEntities1();
 
         [HttpGet]
         public ActionResult Login()
@@ -31,11 +33,11 @@ namespace SocıalMedıa.Controllers
                     if(item.username == cus.username && item.password == cus.password) 
                     {
                         Session["Customer"] =item.Cus_id;
-                        return RedirectToAction("",""); // !! TAMAMLA...Kullanıcıyı panoların sayfasına yönlendirecek.
+                        return RedirectToAction("Index","Home"); // !! TAMAMLA...Kullanıcıyı panoların sayfasına yönlendirecek.
                     }
                     else
                     {
-                        ModelState.AddModelError("Key","Invalıd Username Or Password");
+                        ModelState.AddModelError("", "Invalıd Username Or Password");
                     }
                 }
             }
@@ -59,13 +61,14 @@ namespace SocıalMedıa.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("Key", "Invalıd Username Or Password");
+                        ModelState.AddModelError("", "Invalıd Username Or Password");
                     }
                 }
             }
             
             return View();
         }
+
         [HttpGet]
         public ActionResult Admin()
         {
@@ -84,22 +87,26 @@ namespace SocıalMedıa.Controllers
         {
             return View();
         }
-        /*
+        
         [HttpPost]
 
         public ActionResult Cus_Register(Customer cus)
         {
-            Customer ekle = new Customer {
-                Cus_name = cus.Cus_name,
-                Cus_surname = cus.Cus_surname,
-                Cus_email = cus.Cus_email,
-                Cus_phonenumber = cus.Cus_phonenumber,
-                
-                };
-            Db.Customer.Add(ekle);
+         
+            Db.Customer.Add(cus);
             Db.SaveChanges();
             
             return View();
-        }*/
+        }
+
+        public ActionResult LogOut() 
+        {
+
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("Index", "Home");
+        }
+         
     }
 }
